@@ -6,6 +6,8 @@ print (2 ** 100)       # raise 2 to a power
 x ="spam!"
 print (x * 8)          # String repetition
 
-raw_input('Press Enter to exit')        # Use with Python 2.6+
+# Use with Python 2.6+
+raw_input('Press Enter to exit')
 
-# input('Press Enter to exit')        # Use with Python 3.0+
+# Use with Python 3.0+
+# input('Press Enter to exit')
