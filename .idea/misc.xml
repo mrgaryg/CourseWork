@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BSFConsole">
+    <option name="preferredRecentCommandsDividerLocations">
+      <map>
+        <entry key="[BSF] ant" value="1047" />
+        <entry key="[JSR-223] groovy" value="1047" />
+      </map>
+    </option>
+    <option name="searchOptions">
+      <BSFConsoleSearchOptions />
+    </option>
+  </component>
   <component name="IdProvider" IDEtalkID="D18A19558E7E58A88004B8F76CADEAC4" />
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
