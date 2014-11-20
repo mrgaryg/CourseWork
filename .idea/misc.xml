@@ -5,11 +5,15 @@
       <map>
         <entry key="[BSF] ant" value="1047" />
         <entry key="[JSR-223] groovy" value="1047" />
+        <entry key="[JSR-223] java" value="633" />
       </map>
     </option>
     <option name="searchOptions">
       <BSFConsoleSearchOptions />
     </option>
+  </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="D18A19558E7E58A88004B8F76CADEAC4" />
   <component name="ProjectResources">

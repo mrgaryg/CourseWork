@@ -11,7 +11,7 @@ print 'M is =>', M
 
 print 'Add 1 to each item in col2', [row[1] + 1 for row in M]
 
-print 'Filter out odd items', [row[1] for row in M if row[1] % 2 ==0 ]
+print 'Filter out odd numbers', [row[1] for row in M if row[1] % 2 ==0 ]
 
 diag = [M[i][i] for i in [0,1,2]]
 print 'diag is:',diag
