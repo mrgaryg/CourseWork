@@ -2,4 +2,6 @@ Storm
 Wolverine
 Cyclops
 Bishop
-NightcrawlerProfessor Xavier
+Nightcrawler
+Professor 
+Xavier
