@@ -34,12 +34,27 @@ parser = argparse.ArgumentParser(description="enter port number of the process")
 parser.add_argument('port_number', help='specify port number')
 
 args = parser.parse_args()
+portnum = args.port_number
 
-print(args.port_number)
+# print(args.port_number)
+print(f"Checking for process running on port: {portnum}")
 
 # * Calls out to lsof to determine if there is a process listening on that port.
-subprocess.run()
+myproc = subprocess.run(['lsof', '-n', f'-i4TCP:{portnum}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 # * If there is a process, kill the process and inform the user.
+if myproc.returncode == 0:
+    procstr = myproc.stdout.decode().splitlines()
+    prochead = procstr[0].split()
+    procval = procstr[1].split()
+    procdict = dict(zip(prochead,procval))
+    procpid = int(procdict['PID'])
+    # print(prochead, '\n', procval, '\n', procdict)
+    print(f"Found a process running on port {portnum}")
+    print(f"PID is: {procpid}")
+    print("Time to die")
+    os.kill(procpid, 9)
 
 # * If there is no process, print that there was no process running on that port.
+if myproc.returncode == 1:
+    print(f"Did not find a process running on port {portnum}")
