@@ -27,7 +27,6 @@
 
 import os
 import argparse
-import sys
 import subprocess
 # * Takes a port_number as its only argument.
 parser = argparse.ArgumentParser(description="enter port number of the process")
@@ -56,5 +55,5 @@ if myproc.returncode == 0:
     os.kill(procpid, 9)
 
 # * If there is no process, print that there was no process running on that port.
-if myproc.returncode == 1:
-    print(f"Did not find a process running on port {portnum}")
+else:
+    print(f"Did not find a process listening on port {portnum}")
