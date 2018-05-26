@@ -28,6 +28,7 @@
 import os
 import argparse
 import subprocess
+from sys import exit
 # * Takes a port_number as its only argument.
 parser = argparse.ArgumentParser(description="enter port number of the process")
 parser.add_argument('port_number', help='specify port number')
@@ -48,7 +49,6 @@ if myproc.returncode == 0:
     procval = procstr[1].split()
     procdict = dict(zip(prochead,procval))
     procpid = int(procdict['PID'])
-    # print(prochead, '\n', procval, '\n', procdict)
     print(f"Found a process running on port {portnum}")
     print(f"PID is: {procpid}")
     print("Time to die")
@@ -57,3 +57,5 @@ if myproc.returncode == 0:
 # * If there is no process, print that there was no process running on that port.
 else:
     print(f"Did not find a process listening on port {portnum}")
+    exit(1)
+

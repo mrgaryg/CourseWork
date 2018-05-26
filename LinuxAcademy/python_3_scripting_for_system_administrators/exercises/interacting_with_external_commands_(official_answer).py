@@ -3,6 +3,7 @@
 import subprocess
 import os
 from argparse import ArgumentParser
+from sys import exit
 
 parser = ArgumentParser(description='kill the running process listening on a given port')
 parser.add_argument('port', type=int, help='the port number to search for')
@@ -16,6 +17,7 @@ try:
             stderr=subprocess.PIPE)
 except subprocess.CalledProcessError:
     print(f"No process listening on port {port}")
+    exit(1)
 else:
     listening = None
 
@@ -31,3 +33,4 @@ else:
         print(f"Killed process {pid}")
     else:
         print(f"No process listening on port {port}")
+        exit(1)
