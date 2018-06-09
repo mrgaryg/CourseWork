@@ -27,6 +27,7 @@ try:
     res = requests.get(url)
 except ConnectionError:
     print(f"ERROR: invalid address specified {res}")
+    sys.exit(1)
 except requests.exceptions.HTTPError as err:
     print(f"ERROR: site responded with {err}")
     sys.exit(1)
