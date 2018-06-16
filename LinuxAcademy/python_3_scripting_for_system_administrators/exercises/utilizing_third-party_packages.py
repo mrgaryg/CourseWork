@@ -42,9 +42,11 @@ print (f"Site responded with code {resp.status_code}")
 if isjson:
     print ("Output was requested to be printed in JSON format")
     print (resp.json())
-else:
+    urlContents = resp.json()
+else: # Note: You’ll want to use the text attribute to get the HTML.
     print ("Output was requested to be printed in HTML format") 
-    print (resp.text)
+    # print (resp.text)
+    urlContents = resp.text
 
 # TODO: Make it work with this method later
 # try:
@@ -61,10 +63,7 @@ else:
 
 # sys.exit (0)
 # Writes the contents of the page out to the destination.
-file_output = []
+file_output = ["hello", "dolly"]
 with open(filename, mode='w') as f:
-    print (f"Contents will be written to {filename}")
-    for line in file_output:
-        f.write(line + "\n")    
-
-# Note: You’ll want to use the text attribute to get the HTML.
+    print (f"Contents will be written to file named: {filename}")
+    f.write(urlContents)    
