@@ -17,5 +17,6 @@ with open('/usr/share/dict/words') as f:
 #     if snippet in word.lower():
 #         matches.append(word)
 
-# the follwong line has exactsame meaning as the for loop above
+# the follwong line has exactsame meaning as the for loop above, 
+# but uses 'list comprehention' to achive the same result
 print([word.strip() for word in words if snippet in word.lower()])

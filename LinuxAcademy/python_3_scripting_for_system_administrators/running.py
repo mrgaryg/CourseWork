@@ -2,7 +2,7 @@
 
 import os
 
-stage = os.getenv("STAG", default="dev").upper()
+stage = os.getenv("STAGE", default="dev").upper()
 
 output = f"We're running in {stage}"
 

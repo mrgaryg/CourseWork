@@ -31,39 +31,75 @@ url = args.url
 filename = args.filename
 isjson = args.json
 
+print (">Param settings are:")
+print (f"~The URL requested is: {url}")
+print (f"~The contents will be written to {filename}")
+
 # Utilizes requests to make an HTTP request to the given URL.
-resp = requests.get(url)
+resp = requests.get(url, stream=True)
 
 if resp.status_code != 200:
-    print (f"ERROR: Connecting to address specified: {resp}")
+    print (f"~! ERROR: Connecting to address specified: {resp}")
     sys.exit(1)
+else:
+    print (f"~ Site responded with code {resp.status_code}")
 
-print (f"Site responded with code {resp.status_code}")
 if isjson:
-    print ("Output was requested to be printed in JSON format")
-    print (resp.json())
+    print ("~Output was requested to be printed in JSON format")
+    # print (resp.json())
     urlContents = resp.json()
 else: # Note: You’ll want to use the text attribute to get the HTML.
-    print ("Output was requested to be printed in HTML format") 
+    print ("~Output was requested to be printed in HTML format") 
     # print (resp.text)
-    urlContents = resp.text
-
+    # urlContents = resp.text
+    
+print (f'~File will be encoded as: {resp.encoding}')
+ 
 # TODO: Make it work with this method later
 # try:
-#     res = requests.get(url)
+#     resp = requests.get(url)
 # except ConnectionError:
-#     print (f"ERROR: invalid address specified {res}")
+#     print (f"ERROR: invalid address specified {resp}")
 #     sys.exit(1)
 # except requests.exceptions.HTTPError as err:
 #     print (f"ERROR: site responded with {err}")
 #     sys.exit(1)
 # else:
-#     print (f"Site responded with code {res.status_code}")
-#     # print(res)
+#     print (f"Site responded with code {resp.status_code}")
+#     # print(resp)
 
-# sys.exit (0)
 # Writes the contents of the page out to the destination.
-file_output = ["hello", "dolly"]
+print (f"~Contents will be written to file named: {filename}")
+
+# Iterate using iter_lines
 with open(filename, mode='w') as f:
-    print (f"Contents will be written to file named: {filename}")
-    f.write(urlContents)    
+    line_count = 0
+    for line in resp.iter_lines():
+        if line:
+            line_count += 1
+            if resp.encoding:
+                line = line.decode(f'{resp.encoding}')
+            f.write(line)
+    print (f'~ {line_count} lines were written to {filename}')
+
+# WRITE TO A FILE using 'requests.iter_content' as chunks.
+# Streaming  ust be turned on in requests initilization
+# We need fetch the URL again
+resp = requests.get(url, stream=True)
+with open(f'{filename}_chunked', mode='wb') as f:
+    chunk_count = 0
+    for chunk in resp.iter_content(chunk_size=128):
+        if chunk:  # filter out keep-alive new chunks
+            chunk_count += 1
+            f.write(chunk)
+    print (f'~ {chunk_count} chunks of 128b were written to {filename}')
+
+# Write to a file based in 'Response.text' 
+# with open(filename, mode='w') as f:
+#     print (f"Contents will be written to {filename}")
+#     for line in file_output:
+#         f.write(line + "\n")
+
+# Exit script
+print(f"> DONE: File {filename} written successfuly!!!")
+sys.exit(0)
