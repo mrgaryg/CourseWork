@@ -10,6 +10,7 @@
 import os
 import sys
 import requests
+import json
 from argparse import ArgumentParser
 
 # Accepts a URL and destination file name from the user calling the script.
@@ -26,6 +27,13 @@ parser.add_argument('filename', help='the name of the file')
 # Has an optional flag to state whether or not the response should be JSON or HTML (HTML by default).
 parser.add_argument('-j', '--json', action='store_true', help="change output to json" )
 
+# The following argument line was brought over from the official answer
+# It's non-functional, and is here only for reference
+parser.add_argument('-c', '--content-type',
+                    default='html',
+                    choices=['html', 'json'],
+                    help="change output to json" )
+
 args = parser.parse_args()
 url = args.url
 filename = args.filename
@@ -38,22 +46,26 @@ print (f"~The contents will be written to {filename}")
 # Utilizes requests to make an HTTP request to the given URL.
 resp = requests.get(url, stream=True)
 
-if resp.status_code != 200:
-    print (f"~! ERROR: Connecting to address specified: {resp}")
+if resp.status_code >= 400:
+    print (f"~! ERROR Connecting to address specified: {resp.status_code}")
     sys.exit(1)
-else:
-    print (f"~ Site responded with code {resp.status_code}")
+
+print (f"~Site responded with code {resp.status_code}")
 
 if isjson:
-    print ("~Output was requested to be printed in JSON format")
+    print ("~Content-type is specified as JSON format")
     # print (resp.json())
-    urlContents = resp.json()
+    try:
+        content = json.dumps(resp.json())
+    except ValueError:
+        print ('~! ERROR: Content is not in JSON format')
+        sys.exit(1)
+
 else: # Note: You’ll want to use the text attribute to get the HTML.
-    print ("~Output was requested to be printed in HTML format") 
+    print ("~Content-type is specified as HTML format") 
     # print (resp.text)
-    # urlContents = resp.text
+    content = resp.text
     
-print (f'~File will be encoded as: {resp.encoding}')
  
 # TODO: Make it work with this method later
 # try:
@@ -70,6 +82,7 @@ print (f'~File will be encoded as: {resp.encoding}')
 
 # Writes the contents of the page out to the destination.
 print (f"~Contents will be written to file named: {filename}")
+print (f'~File will be encoded as: {resp.encoding}')
 
 # Iterate using iter_lines
 with open(filename, mode='w') as f:
