@@ -42,8 +42,6 @@ with open(f'{filename}_chunked', mode='wb') as f:
 #     for line in file_output:
 #         f.write(line + "\n")
 
-
-
 # DO YOU WANT THE SCRIPT TO READ BACK THE WRITTEN FILE
 # with open(filename, mode='r') as fr:
 #     print (f'reading from {fr}')
